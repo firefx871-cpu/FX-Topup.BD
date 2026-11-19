@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FX TopUp.BD - Trusted Game Topup</title>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- External CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<div class="app-container">
+    <!-- Top Header -->
+    <header>
+        <div class="logo" onclick="switchTab('home')">
+            <i class="fa-solid fa-gem"></i>
+            <span>FX TopUp.BD</span>
+        </div>
+        <div class="header-right">
+            <div class="wallet-pill" onclick="switchTab('add-money')">
+                <i class="fa-solid fa-wallet"></i>
+                <span id="header-balance">0৳</span>
+            </div>
+            <div class="profile-avatar" onclick="switchTab('account')">F</div>
+        </div>
+    </header>
+
+    <!-- ================= HOME VIEW ================= -->
+    <div id="view-home" class="view-section active">
+        <!-- Notice Bar -->
+        <div class="notice-bar" id="top-notice">
+            <div class="notice-badge"><span></span> NOTICE</div>
+            <div class="notice-text">
+                <marquee scrollamount="4">FX TopUp.BD-তে স্বাগতম! যেকোনো সমস্যায় টেলিগ্রাম সাপোর্টে মেসেজ দিন। বিকাশ ও নগদ পেমেন্ট (01867370413) চালু আছে!</marquee>
+            </div>
+            <button class="notice-close" onclick="document.getElementById('top-notice').style.display='none'">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+        </div>
+
+        <!-- Smart Slider -->
+        <div class="slider-container">
+            <div class="slides" id="slider-track">
+                <div class="slide">
+                    <h3>১০৳ থেকে ৪৯৯৳ অটো পেমেন্ট!</h3>
+                    <p>bKash ও Nagad (01867370413) পার্সোনাল সেন্ড মানি করে সাথে সাথে ওয়ালেটে টাকা যোগ করুন।</p>
+                    <div class="slide-badges">
+                        <span><i class="fa-solid fa-shield-halved"></i> নিরাপদ লেনদেন</span>
+                        <span><i class="fa-solid fa-bolt"></i> দ্রুত সার্ভিস</span>
+                    </div>
+                </div>
+                <div class="slide slide-2">
+                    <h3>ফ্রি ফায়ার ডায়মন্ড টপআপ!</h3>
+                    <p>শুধুমাত্র Player UID দিয়ে মাত্র ১ মিনিটে ডায়মন্ড ডেলিভারি নিন।</p>
+                    <div class="slide-badges">
+                        <span><i class="fa-solid fa-check-circle"></i> ২৪/৭ অটো ডেলিভারি</span>
+                    </div>
+                </div>
+                <div class="slide slide-3">
+                    <h3>শুক্রবার স্পেশাল অফার!</h3>
+                    <p>Weekly ও Monthly মেম্বারশিপে চলছে বিশেষ ডিসকাউন্ট অফার।</p>
+                    <div class="slide-badges">
+                        <span><i class="fa-solid fa-fire"></i> লিমিটেড অফার</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="slider-dots">
+            <div class="dot active" onclick="goToSlide(0)"></div>
+            <div class="dot" onclick="goToSlide(1)"></div>
+            <div class="dot" onclick="goToSlide(2)"></div>
+        </div>
+
+        <!-- Support & Group -->
+        <div class="support-grid">
+            <a href="#" class="support-btn" onclick="alert('Telegram Support লিংক যুক্ত করুন')">
+                <i class="fa-brands fa-telegram"></i>
+                <div>
+                    <span>SUPPORT</span>
+                    <strong>Telegram</strong>
+                </div>
+            </a>
+            <a href="#" class="support-btn" onclick="alert('WhatsApp/Telegram Group লিংক যুক্ত করুন')">
+                <i class="fa-solid fa-users"></i>
+                <div>
+                    <span>GROUP</span>
+                    <strong>Join Group</strong>
+                </div>
+            </a>
+        </div>
+
+        <!-- Discount Offer -->
+        <div class="section-title">DISCOUNT OFFER ⚡</div>
+        <div class="cards-grid two-col">
+            <div class="game-card" onclick="openTopupModal('PREMIUM USER OFFER', 'uid')">
+                <div class="card-banner gold">
+                    <i class="fa-solid fa-crown"></i>
+                    <h4>ONLY PREMIUM USER</h4>
+                </div>
+                <div class="card-footer">PREMIUM USER 🔥</div>
+            </div>
+            <div class="game-card" onclick="openTopupModal('FRIDAY SPECIAL OFFER', 'uid')">
+                <div class="card-banner">
+                    <i class="fa-solid fa-gift"></i>
+                    <h4>শুক্রবার স্পেশাল অফার</h4>
+                </div>
+                <div class="card-footer">FRIDAY SPECIAL</div>
+            </div>
+        </div>
+
+        <!-- FF Topup -->
+        <div class="section-title">FF TOPUP ⚡</div>
+        <div class="cards-grid">
+            <div class="game-card" onclick="openTopupModal('UID TOPUP (BD)', 'uid')">
+                <div class="card-banner">
+                    <i class="fa-solid fa-id-card"></i>
+                    <h4>ID CODE TOP UP</h4>
+                </div>
+                <div class="card-footer">UID TOPUP (BD)</div>
+            </div>
+            <div class="game-card" onclick="openTopupModal('WEEKLY & MONTHLY', 'membership')">
+                <div class="card-banner gold">
+                    <i class="fa-solid fa-calendar-check"></i>
+                    <h4>WEEKLY & MONTHLY</h4>
+                </div>
+                <div class="card-footer">WEEKLY & MONTHLY</div>
+            </div>
+            <div class="game-card" onclick="openTopupModal('WEEKLY LITE (BD)', 'membership')">
+                <div class="card-banner blue">
+                    <i class="fa-solid fa-gem"></i>
+                    <h4>WEEKLY LITE</h4>
+                </div>
+                <div class="card-footer">WEEKLY LITE (BD)</div>
+            </div>
+            <div class="game-card" onclick="openTopupModal('NEW LEVEL UP PASS', 'levelup')">
+                <div class="card-banner">
+                    <i class="fa-solid fa-angles-up"></i>
+                    <h4>LEVEL UP PASS</h4>
+                </div>
+                <div class="card-footer">NEW LEVEL UP PASS</div>
+            </div>
+            <div class="game-card" onclick="openTopupModal('FF ID LIKE (DAILY)', 'like')">
+                <div class="card-banner gold">
+                    <i class="fa-solid fa-thumbs-up"></i>
+                    <h4>১০০ লাইক প্রতিদিন</h4>
+                </div>
+                <div class="card-footer">FF ID Like (200 Max)</div>
+            </div>
+        </div>
+
+        <!-- Recent Orders -->
+        <div class="recent-orders-box">
+            <div class="recent-header">
+                <div class="recent-title-wrap">
+                    <div class="bag-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+                    <div>
+                        <h4 style="font-size: 15px;">Recent Orders</h4>
+                        <div class="live-badge"><span class="live-dot"></span> Live</div>
+                    </div>
+                </div>
+                <i class="fa-solid fa-rotate" style="color: var(--text-muted); cursor: pointer;"></i>
+            </div>
+
+            <div id="live-orders-list">
+                <div class="order-item">
+                    <div class="order-user">
+                        <div class="user-circle">md</div>
+                        <div class="order-info">
+                            <h5>md roman</h5>
+                            <p>1x Weekly Lite - ৳45</p>
+                        </div>
+                    </div>
+                    <div class="order-status">
+                        <span class="order-time">25 seconds ago</span>
+                        <span class="status-pill status-done">✓ Done</span>
+                    </div>
+                </div>
+                <div class="order-item">
+                    <div class="order-user">
+                        <div class="user-circle" style="background: #10b981;">Lx</div>
+                        <div class="order-info">
+                            <h5>Lx Sohag</h5>
+                            <p>50 Diamond 💎 - ৳38</p>
+                        </div>
+                    </div>
+                    <div class="order-status">
+                        <span class="order-time">51 seconds ago</span>
+                        <span class="status-pill status-pending">⏳ Pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= MY ORDERS VIEW ================= -->
+    <div id="view-orders" class="view-section">
+        <div class="section-title">MY ORDERS HISTORY</div>
+        <div class="recent-orders-box" id="my-orders-container">
+            <p style="text-align: center; color: var(--text-muted); font-size: 13px; padding: 20px;">
+                আপনার কোনো অর্ডার হিস্ট্রি পাওয়া যায়নি। হোম পেজ থেকে টপআপ অর্ডার করুন!
+            </p>
+        </div>
+    </div>
+
+    <!-- ================= ADD MONEY (BKASH / NAGAD) VIEW ================= -->
+    <div id="view-add-money" class="view-section">
+        <div class="section-title">ADD MONEY TO WALLET</div>
+        <div class="payment-box">
+            <p style="font-size: 13px; color: var(--text-muted);">পেমেন্ট মেথড সিলেক্ট করুন:</p>
+            <div class="method-select">
+                <div class="method-card bkash active" onclick="selectPayment('bKash', '01867370413', this)">
+                    <i class="fa-solid fa-paper-plane"></i> bKash Personal
+                </div>
+                <div class="method-card nagad" onclick="selectPayment('Nagad', '01867370413', this)">
+                    <i class="fa-solid fa-wallet"></i> Nagad Personal
+                </div>
+            </div>
+
+            <div class="number-copy-box">
+                <div>
+                    <span style="font-size: 11px; color: var(--text-muted); display: block;" id="pay-method-label">bKash Personal (Send Money)</span>
+                    <strong id="pay-number" style="font-size: 16px;">01867370413</strong>
+                </div>
+                <button class="copy-btn" onclick="copyNumber()"><i class="fa-regular fa-copy"></i> Copy</button>
+            </div>
+
+            <div class="form-group">
+                <label>টাকার পরিমাণ (Amount in BDT)</label>
+                <input type="number" id="add-amount" placeholder="যেমন: 100">
+            </div>
+
+            <div class="form-group">
+                <label>আপনার নম্বর (Sender Number)</label>
+                <input type="text" id="sender-number" placeholder="01XXXXXXXXX">
+            </div>
+
+            <div class="form-group">
+                <label>ট্রানজেকশন আইডি (Transaction ID)</label>
+                <input type="text" id="trx-id" placeholder="যেমন: 9H7G6F5D4S">
+            </div>
+
+            <button class="btn-primary" onclick="submitAddMoney()">Verify & Add Money</button>
+        </div>
+    </div>
+
+    <!-- ================= MY CODES VIEW ================= -->
+    <div id="view-codes" class="view-section">
+        <div class="section-title">MY VOUCHER CODES</div>
+        <div class="recent-orders-box" style="text-align: center; padding: 30px 15px;">
+            <i class="fa-solid fa-ticket" style="font-size: 40px; color: var(--primary); margin-bottom: 10px;"></i>
+            <h4>কোনো ভাউচার কোড নেই</h4>
+            <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">আপনি কোনো গিফট কার্ড বা ভাউচার কিনলে তার কোড এখানে দেখতে পাবেন।</p>
+        </div>
+    </div>
+
+    <!-- ================= MY ACCOUNT VIEW ================= -->
+    <div id="view-account" class="view-section">
+        <div class="account-card">
+            <div class="big-avatar">
+                F
+                <span class="online-dot"></span>
+            </div>
+            <h3>Fire Fx <span class="verified-tag">● Verified</span></h3>
+            <div class="pin-row">
+                <i class="fa-solid fa-shield"></i> Support PIN: <strong>282609</strong> &nbsp;|&nbsp; ★ Verified Account
+            </div>
+            <div class="rank-box">
+                <i class="fa-solid fa-medal" style="font-size: 28px; color: #b45309;"></i>
+                <div style="text-align: left;">
+                    <strong style="font-size: 14px; display: block;">Bronze Member</strong>
+                    <span style="font-size: 11px; color: var(--text-muted);">Level 1 / Current Rank</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="wallet-card">
+            <div style="display: flex; justify-content: space-between; color: var(--text-muted); font-size: 13px;">
+                <span>Wallet Balance</span>
+                <i class="fa-solid fa-rotate" style="cursor: pointer;"></i>
+            </div>
+            <h2 id="account-balance">Tk 0</h2>
+            <button class="btn-blue" onclick="switchTab('add-money')">Add Money</button>
+        </div>
+    </div>
+
+    <!-- Floating Support Button -->
+    <div class="floating-support" onclick="alert('Customer Support: 24/7 Live Chat')">
+        <i class="fa-solid fa-headset"></i>
+    </div>
+
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+        <div class="nav-item active" id="nav-home" onclick="switchTab('home')">
+            <i class="fa-solid fa-house"></i>
+            <span>Home</span>
+        </div>
+        <div class="nav-item" id="nav-orders" onclick="switchTab('orders')">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span>My Orders</span>
+        </div>
+        <div class="nav-center-btn" onclick="switchTab('add-money')">
+            <div class="plus-circle"><i class="fa-solid fa-plus"></i></div>
+            <span>Add Money</span>
+        </div>
+        <div class="nav-item" id="nav-codes" onclick="switchTab('codes')">
+            <i class="fa-solid fa-ticket"></i>
+            <span>My Codes</span>
+        </div>
+        <div class="nav-item" id="nav-account" onclick="switchTab('account')">
+            <i class="fa-regular fa-user"></i>
+            <span>My Account</span>
+        </div>
+    </nav>
+</div>
+
+<!-- ================= POPUP NOTICE MODAL ================= -->
+<div class="modal-overlay show" id="popup-notice-modal">
+    <div class="modal-box" style="text-align: center;">
+        <div class="modal-header">
+            <h3><i class="fa-solid fa-bullhorn"></i> জরুরি নোটিশ!</h3>
+            <button class="close-modal" onclick="closeModal('popup-notice-modal')">&times;</button>
+        </div>
+        <p style="font-size: 13px; color: var(--text-dark); line-height: 1.6; margin-bottom: 15px;">
+            স্বাগতম <strong>FX TopUp.BD</strong>-এ! আমাদের ওয়েবসাইটে এখন বিকাশ ও নগদ (<strong>01867370413</strong>) অটো পেমেন্ট এবং মাত্র ১ মিনিটে UID টপআপ চালু আছে। যেকোনো প্রয়োজনে টেলিগ্রামে যোগাযোগ করুন।
+        </p>
+        <button class="btn-primary" onclick="closeModal('popup-notice-modal')">ঠিক আছে, বুঝেছি</button>
+    </div>
+</div>
+
+<!-- ================= TOPUP ORDER MODAL ================= -->
+<div class="modal-overlay" id="topup-modal">
+    <div class="modal-box">
+        <div class="modal-header">
+            <h3 id="modal-title">UID TOPUP (BD)</h3>
+            <button class="close-modal" onclick="closeModal('topup-modal')">&times;</button>
+        </div>
+
+        <div class="form-group">
+            <label>১. প্লেয়ার আইডি দিন (Player UID)</label>
+            <input type="number" id="player-uid" placeholder="যেমন: 123456789">
+        </div>
+
+        <label style="font-size: 13px; font-weight: 600; display: block; margin-bottom: 8px;">২. প্যাকেজ সিলেক্ট করুন:</label>
+        <div class="package-grid" id="package-options">
+            <!-- JS will inject packages here -->
+        </div>
+
+        <button class="btn-primary" onclick="placeOrder()">অর্ডার কনফার্ম করুন (Wallet Pay)</button>
+    </div>
+</div>
+
+<!-- External JavaScript -->
+<script src="script.js"></script>
+</body>
+</html>
