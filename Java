@@ -1,0 +1,207 @@
+// Global State
+let walletBalance = 0;
+let selectedPackage = null;
+let currentCategory = '';
+let myOrders = [];
+
+// Packages Data
+const packagesData = {
+    uid: [
+        { name: '25 Diamond 💎', price: 22 },
+        { name: '50 Diamond 💎', price: 38 },
+        { name: '115 Diamond 💎', price: 78 },
+        { name: '240 Diamond 💎', price: 158 },
+        { name: '610 Diamond 💎', price: 390 },
+        { name: '1240 Diamond 💎', price: 780 }
+    ],
+    membership: [
+        { name: 'Weekly Lite', price: 45 },
+        { name: 'Weekly Membership', price: 155 },
+        { name: 'Monthly Membership', price: 760 },
+        { name: '2x Weekly', price: 310 }
+    ],
+    levelup: [
+        { name: 'Level Up Pass (Full)', price: 185 },
+        { name: 'Evo Access (7 Days)', price: 95 }
+    ],
+    like: [
+        { name: '100 Likes (1 Day)', price: 15 },
+        { name: '200 Likes (Max)', price: 25 }
+    ]
+};
+
+// Smart Slider Logic
+let currentSlide = 0;
+const totalSlides = 3;
+setInterval(() => {
+    currentSlide = (currentSlide + 1) % totalSlides;
+    goToSlide(currentSlide);
+}, 3500);
+
+function goToSlide(index) {
+    currentSlide = index;
+    document.getElementById('slider-track').style.transform = `translateX(-${index * 100}%)`;
+    document.querySelectorAll('.dot').forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+    });
+}
+
+// Tab Navigation Logic
+function switchTab(tabName) {
+    document.querySelectorAll('.view-section').forEach(sec => sec.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(nav => nav.classList.remove('active'));
+
+    document.getElementById('view-' + tabName).classList.add('active');
+    const navBtn = document.getElementById('nav-' + tabName);
+    if (navBtn) navBtn.classList.add('active');
+    window.scrollTo(0, 0);
+}
+
+// Modal Controls
+function closeModal(id) {
+    document.getElementById(id).classList.remove('show');
+}
+
+function openTopupModal(title, type) {
+    currentCategory = title;
+    document.getElementById('modal-title').innerText = title;
+    const container = document.getElementById('package-options');
+    container.innerHTML = '';
+    selectedPackage = null;
+
+    const list = packagesData[type] || packagesData.uid;
+    list.forEach((pkg) => {
+        const div = document.createElement('div');
+        div.className = 'pkg-item';
+        div.innerHTML = `${pkg.name} <span class="pkg-price">৳${pkg.price}</span>`;
+        div.onclick = () => {
+            document.querySelectorAll('.pkg-item').forEach(el => el.classList.remove('selected'));
+            div.classList.add('selected');
+            selectedPackage = pkg;
+        };
+        container.appendChild(div);
+    });
+
+    document.getElementById('topup-modal').classList.add('show');
+}
+
+// Place Order Logic
+function placeOrder() {
+    const uid = document.getElementById('player-uid').value.trim();
+    if (!uid) {
+        alert('দয়া করে সঠিক Player UID দিন!');
+        return;
+    }
+    if (!selectedPackage) {
+        alert('দয়া করে একটি প্যাকেজ সিলেক্ট করুন!');
+        return;
+    }
+    if (walletBalance < selectedPackage.price) {
+        alert(`আপনার ওয়ালেটে পর্যাপ্ত ব্যালেন্স নেই! প্রয়োজন ৳${selectedPackage.price}। দয়া করে Add Money করুন।`);
+        closeModal('topup-modal');
+        switchTab('add-money');
+        return;
+    }
+
+    // Deduct Balance
+    walletBalance -= selectedPackage.price;
+    updateBalanceUI();
+
+    // Add to Orders
+    const newOrder = {
+        pkg: selectedPackage.name,
+        price: selectedPackage.price,
+        uid: uid,
+        time: 'Just now'
+    };
+    myOrders.unshift(newOrder);
+    renderOrders();
+
+    closeModal('topup-modal');
+    alert(`অর্ডার সফল হয়েছে! UID: ${uid} এ ${selectedPackage.name} পাঠানো হচ্ছে।`);
+    switchTab('orders');
+}
+
+// Payment Method Switch & Add Money
+function selectPayment(method, number, element) {
+    document.querySelectorAll('.method-card').forEach(el => el.classList.remove('active'));
+    element.classList.add('active');
+    document.getElementById('pay-method-label').innerText = `${method} Personal (Send Money)`;
+    document.getElementById('pay-number').innerText = number;
+}
+
+function copyNumber() {
+    const num = document.getElementById('pay-number').innerText;
+    navigator.clipboard.writeText(num);
+    alert('নম্বর কপি হয়েছে: ' + num);
+}
+
+function submitAddMoney() {
+    const amount = parseInt(document.getElementById('add-amount').value);
+    const sender = document.getElementById('sender-number').value.trim();
+    const trx = document.getElementById('trx-id').value.trim();
+
+    if (!amount || amount < 10) {
+        alert('সর্বনিম্ন ১০ টাকা অ্যাড করতে পারবেন!');
+        return;
+    }
+    if (!sender || !trx) {
+        alert('দয়া করে সেন্ডার নম্বর এবং ট্রানজেকশন আইডি দিন!');
+        return;
+    }
+
+    walletBalance += amount;
+    updateBalanceUI();
+
+    document.getElementById('add-amount').value = '';
+    document.getElementById('sender-number').value = '';
+    document.getElementById('trx-id').value = '';
+
+    alert(`অভিনন্দন! আপনার ওয়ালেটে ৳${amount} সফলভাবে যোগ হয়েছে।`);
+    switchTab('home');
+}
+
+function updateBalanceUI() {
+    document.getElementById('header-balance').innerText = walletBalance + '৳';
+    document.getElementById('account-balance').innerText = 'Tk ' + walletBalance;
+}
+
+function renderOrders() {
+    const myContainer = document.getElementById('my-orders-container');
+    const liveContainer = document.getElementById('live-orders-list');
+
+    myContainer.innerHTML = myOrders.map(o => `
+        <div class="order-item">
+            <div class="order-user">
+                <div class="user-circle" style="background: var(--primary);">Fx</div>
+                <div class="order-info">
+                    <h5>${o.pkg} - ৳${o.price}</h5>
+                    <p>UID: ${o.uid}</p>
+                </div>
+            </div>
+            <div class="order-status">
+                <span class="order-time">${o.time}</span>
+                <span class="status-pill status-done">✓ Done</span>
+            </div>
+        </div>
+    `).join('');
+
+    // Also prepend to Home Live Orders
+    const latest = myOrders[0];
+    const liveHtml = `
+        <div class="order-item">
+            <div class="order-user">
+                <div class="user-circle" style="background: #f97316;">Fx</div>
+                <div class="order-info">
+                    <h5>Fire Fx</h5>
+                    <p>1x ${latest.pkg} - ৳${latest.price}</p>
+                </div>
+            </div>
+            <div class="order-status">
+                <span class="order-time">Just now</span>
+                <span class="status-pill status-done">✓ Done</span>
+            </div>
+        </div>
+    `;
+    liveContainer.insertAdjacentHTML('afterbegin', liveHtml);
+}
